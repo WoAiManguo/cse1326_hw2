@@ -1,7 +1,12 @@
 #include "classes.hpp"
+#include <iostream>
 #include <string>
 #include <algorithm>
 #include <sstream>
+#include <cmath>
+#include <stdio.h>
+#include "coordinateSystems.h"
+
 
 namespace Airports
 {
@@ -56,17 +61,39 @@ namespace Airports
     }
 
     std::vector<Airport> listofairports;
-    std::vector<temp> distances;
+    std::vector<temp*> distances;
 }
 
-double distance(double lat, double lon, double searchRad)
+bool distcompare(const Airports::temp* a, const Airports::temp* b) {return (a->distance < b->distance); }
+
+struct distance distancecalc(double lat, double lon, double alt, double latOf, double lonOf, double altOf, double searchRad)
 {
+    struct distance result;
     double dist = 0;
 
+    coordinateSystems::LLA A (latOf, lonOf, altOf);
+    coordinateSystems::LLA B (lat, lon, alt);
 
+    coordinateSystems::ECF a = A.toECF ();
+    coordinateSystems::ECF b = B.toECF ();
 
-    return dist;
-}
+    //printf(" %lf %lf ", a.getFirstCoordinate(), a.getSecondCoordinate());
+    //printf(" %lf %lf ", b.getFirstCoordinate(), b.getSecondCoordinate());
+
+    dist = std::sqrt(std::abs(
+        ((a.getFirstCoordinate () - b.getFirstCoordinate ()) * (a.getFirstCoordinate () - b.getFirstCoordinate ()))
+        + ((a.getSecondCoordinate () - b.getSecondCoordinate ()) * (a.getSecondCoordinate () - b.getSecondCoordinate ()))
+    ));
+
+    const double meters_to_miles = 0.0006213711922373339;
+    dist = dist * meters_to_miles;
+    
+    result.lessthanparam = dist < searchRad;
+    result.distance = dist;
+
+    //std::cout << dist << std::endl;
+    return result;
+};
 
 std::string removequotes(const std::string& input)
 {

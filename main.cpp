@@ -1,5 +1,8 @@
 #include <iostream>
 #include <fstream>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
 #include "coordinateSystems.h"
 #include "classes.hpp"
 
@@ -41,7 +44,59 @@ int main(int argc, char *argv[])
 
     csvFile.close();
 
+    
 
+    while (1)
+    {
+        double latx=0, lony=0;
+        char u_in[100];
+        scanf("%99[^\n]", u_in);
+        getchar();
+
+        u_in[strcspn(u_in, "\n")] = '\0';
+
+        if (strcmp(u_in, "stop") == 0)
+            break;
+
+        sscanf(u_in, "%lf %lf", &latx, &lony);
+
+        //cout << latx << lony << endl;
+
+        size_t index = 0;
+        for (const auto& airport : Airports::listofairports)
+        {
+            auto d = distancecalc(latx, lony, 0.0, *(airport.latitude), *(airport.longitude), 0.0, 60);
+            if (d.lessthanparam)
+            {
+                //cout << "matching index is " << index << endl;
+
+                Airports::distances.push_back(new Airports::temp(index, d.distance));
+            }
+            ++index;
+        }
+
+        sort(Airports::distances.begin(), Airports::distances.end(), distcompare);
+
+        int counter = 1;
+        for (const auto& d : Airports::distances)
+        {
+            const auto& airport = Airports::listofairports[d->matchindex];
+
+            printf("%d) %s %lf %lf distance (miles) %lf\n",
+                counter,
+                airport.airport->c_str(),
+                *airport.latitude,
+                *airport.longitude,
+                d->distance);
+            ++counter;
+        }
+
+        for (auto d : Airports::distances)
+        {
+            delete d;
+        }
+        Airports::distances.clear();
+    };
 
     return 0;
 }

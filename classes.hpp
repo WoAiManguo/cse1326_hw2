@@ -6,6 +6,7 @@ namespace Airports
 {
     class Airport
     {
+    public:
         std::string* country_code;
         std::string* region_name;
         std::string* iata;
@@ -14,7 +15,7 @@ namespace Airports
         double* latitude;
         double* longitude;
 
-    public:
+
         Airport(std::string s1, std::string s2, std::string s3, std::string s4, std::string s5, double s6, double s7);
         ~Airport();
         Airport(const Airport& other);
@@ -30,10 +31,18 @@ namespace Airports
     };
 
     extern std::vector<Airport> listofairports;
-    extern std::vector<temp> distances;
+    extern std::vector<temp*> distances;
 };
 
-double distance(double lat, double lon, double searchRad);
+bool distcompare(const Airports::temp* a, const Airports::temp* b);
+
+struct distance
+{
+    bool lessthanparam;
+    double distance;
+};
+
+struct distance distancecalc(double lat, double lon, double alt, double latOf,double lonOf, double altOf, double searchRad);
 
 std::string removequotes(const std::string& input);
 

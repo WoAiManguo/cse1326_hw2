@@ -11,6 +11,7 @@
                 "-g",
                 "main.cpp",
                 "classes.cpp",
+                "coordinateSystems.cpp",
                 "-o",
                 "main"
             ],
