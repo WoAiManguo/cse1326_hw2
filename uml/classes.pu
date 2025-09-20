@@ -1,26 +1,54 @@
-@startuml classes
+@startuml
+namespace Airports {
+    class Airport {
+        - std::string* country_code
+        - std::string* region_name
+        - std::string* iata
+        - std::string* icao
+        - std::string* airport
+        - double* latitude
+        - double* longitude
+        + Airport(s1: string, s2: string, s3: string, s4: string, s5: string, s6: double, s7: double)
+        + ~Airport()
+    }
 
-abstract Airports {
-  vector listofairports
-  vector distances
+    class temp {
+        + int matchindex
+        + double distance
+        + temp(x: int, y: double)
+    }
+
+    listofairports : std::vector<Airport>
+    distances : std::vector<temp*>
 }
 
-temp..>Airports
-Airport..>Airports
-
-class temp{
-  int matchindex
-  double distance
+struct distance
+{
+    bool lessthanparam
+    double distance
 }
 
-class Airport {
-  char country_code
-  char region_name
-  char iata
-  char icao
-  char airport
-  float latitude
-  float longitude
+struct distancecalc
+{
+    -struct distance result
+    -coordinateSystems::LLA A (latOf, lonOf, altOf);
+    -coordinateSystems::LLA B (lat, lon, alt);
+    -coordinateSystems::ECF a = A.toECF ();
+    -coordinateSystems::ECF b = B.toECF ();
+    -dist = std::sqrt std::abs
+    -const double meters_to_miles = 0.0006213711922373339
+    -dist = dist * meters_to_miles;
+    -result.lessthanparam = dist < searchRad;
+    -result.distance = dist;
+    +return result;
 }
 
+distcompare : a->distance < b->distance
+
+distcompare <-- distances
+distances <-- distance
+distance <-- distancecalc
+
+listofairports <|.. Airport
+distances <|.. temp
 @enduml
