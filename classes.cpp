@@ -21,25 +21,6 @@ namespace Airports
         latitude = s6;
         longitude = s7;
     }
-    std::vector<Airport> listofairports;
-    std::vector<temp> distances;
-}
-
-Airports::temp::temp(int x, double y)
-{
-    matchindex = x;
-    distance = y;
-}
-
-Airports::Airport::Airport(std::string s1, std::string s2, std::string s3, std::string s4, std::string s5, double s6, double s7)
-{
-    country_code = s1;
-    region_name = s2;
-    iata = s3;
-    icao = s4;
-    airport = s5;
-    latitude = s6;
-    longitude = s7;
 }
 
 double distance(double lat, double lon, double searchRad)
