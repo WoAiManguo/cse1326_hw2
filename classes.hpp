@@ -6,16 +6,19 @@ namespace Airports
 {
     class Airport
     {
-    public:
-        std::string country_code;
-        std::string region_name;
-        std::string iata;
-        std::string icao;
-        std::string airport;
-        double latitude;
-        double longitude;
+        std::string* country_code;
+        std::string* region_name;
+        std::string* iata;
+        std::string* icao;
+        std::string* airport;
+        double* latitude;
+        double* longitude;
 
+    public:
         Airport(std::string s1, std::string s2, std::string s3, std::string s4, std::string s5, double s6, double s7);
+        ~Airport();
+        Airport(const Airport& other);
+        Airport& operator=(const Airport& other);
     };
 
     class temp
@@ -26,8 +29,8 @@ namespace Airports
         temp(int x, double y);
     };
 
-    std::vector<Airport> listofairports;
-    std::vector<temp> distances;
+    extern std::vector<Airport> listofairports;
+    extern std::vector<temp> distances;
 };
 
 double distance(double lat, double lon, double searchRad);

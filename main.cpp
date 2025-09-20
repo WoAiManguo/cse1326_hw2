@@ -34,16 +34,13 @@ int main(int argc, char *argv[])
 
     while(getline(csvFile, line))
     {
-        vector<string> fields = parsecsv(line);
+        auto fields = parsecsv(line);
 
-        double lat = 0.0, lon = 0.0;
-        lat = stod(fields[5]);
-        lon = stod(fields[6]);
-
-        Airports::listofairports.emplace_back(fields[0], fields[1], fields[2], fields[3], fields[4], lat, lon);
+        Airports::listofairports.emplace_back(fields[0], fields[1], fields[2], fields[3], fields[4], stod(fields[5]), stod(fields[6]));
     }
 
     csvFile.close();
+
 
 
     return 0;
