@@ -1,0 +1,26 @@
+@startuml classes
+
+abstract Airports {
+  vector listofairports
+  vector distances
+}
+
+temp..>Airports
+Airport..>Airports
+
+class temp{
+  int matchindex
+  double distance
+}
+
+class Airport {
+  char country_code
+  char region_name
+  char iata
+  char icao
+  char airport
+  float latitude
+  float longitude
+}
+
+@enduml
